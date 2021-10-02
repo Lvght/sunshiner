@@ -1,6 +1,6 @@
 //Province/State,Country/Region,Lat,Long
 
-class DeathsModel {
+class DailyModel {
   final String country;
   final String state;
   final double? latitude;
@@ -8,14 +8,14 @@ class DeathsModel {
   final Map<String, int> deaths;
 
   // Construtor.s
-  DeathsModel(
+  DailyModel(
       {required this.country,
       required this.state,
       required this.latitude,
       required this.longitude,
       required this.deaths});
 
-  factory DeathsModel.fromMap(List header, List props) {
+  factory DailyModel.fromMap(List header, List props) {
     String state = props[0];
     String country = props[1];
     double? latitude = props[2] is double ? props[2] : null;
@@ -27,7 +27,7 @@ class DeathsModel {
       deaths[header[i]] = props[i];
     }
 
-    return DeathsModel(
+    return DailyModel(
         state: state,
         country: country,
         latitude: latitude,

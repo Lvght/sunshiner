@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:csv/csv.dart';
 import 'package:http/http.dart' as http;
 import 'package:sunshiner/helpers/geohelper.dart';
-import 'package:sunshiner/models/deaths_data.dart';
-import 'package:sunshiner/models/vaccination_data.dart';
+import 'package:sunshiner/models/daily_model.dart';
+import 'package:sunshiner/models/vaccination_model.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -71,34 +71,14 @@ Future<void> getVacinadosFilter() async {
   }
 }
 
-Future<List<DeathsModel>> getMortes() async {
-  Uri url = Uri.parse(
-      'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv');
+Future<List<DailyModel>> getInfo(
+    {String url =
+        'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'}) async {
+  Uri uri = Uri.parse(url);
 
-  http.Response response = await http.get(url);
+  http.Response response = await http.get(uri);
 
-  List<DeathsModel> results = [];
-
-  List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter(
-    eol: '\n',
-  ).convert(response.body);
-  List<dynamic> header = rowsAsListOfValues[0];
-  rowsAsListOfValues.removeAt(0);
-
-  results.addAll(
-      rowsAsListOfValues.map((e) => DeathsModel.fromMap(header, e)).toList());
-
-  print('aaaa');
-  return results;
-}
-
-Future<List<DeathsModel>> getNaoMortes() async {
-  Uri url = Uri.parse(
-      'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv');
-
-  http.Response response = await http.get(url);
-
-  List<DeathsModel> results = [];
+  List<DailyModel> results = [];
 
   List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter(
     eol: '\n',
@@ -107,7 +87,7 @@ Future<List<DeathsModel>> getNaoMortes() async {
   rowsAsListOfValues.removeAt(0);
 
   results.addAll(
-      rowsAsListOfValues.map((e) => DeathsModel.fromMap(header, e)).toList());
+      rowsAsListOfValues.map((e) => DailyModel.fromMap(header, e)).toList());
 
   print('aaaa');
   return results;
