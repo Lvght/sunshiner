@@ -127,13 +127,13 @@ Future<DailyModel?> _getDisplayInfo(BuildContext context) async {
           position.latitude, position.longitude,
           localeIdentifier: "en_US");
       userLocationCountry = placemarks[0].country ?? "";
+      userLocationState = placemarks[0].administrativeArea ?? "";
 
       Provider.of<StateModel>(context, listen: false).setUserLocale(
           country: userLocationCountry,
           state: userLocationState,
           position: position);
     }
-
     // Ocorreu uma falha ao obter a localização.
     else {
       return null;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sunshiner/components/global_death_data_display.dart';
 import 'package:sunshiner/components/local_data_display.dart';
 
 class Dashboard extends StatefulWidget {
@@ -21,8 +22,9 @@ class _DashboardState extends State<Dashboard> {
           children: const [
             Text('Dados do seu local'),
             SizedBox(height: 16),
+            GlobalDeathDataDisplay(),
+            Text('Outros dados abaixo'),
             LocalDataDisplay(),
-            Text('Outros dados abaixo')
           ],
         ),
       ),

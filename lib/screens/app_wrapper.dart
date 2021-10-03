@@ -22,7 +22,7 @@ class _AppWrapperState extends State<AppWrapper> {
           body: IndexedStack(
             index: _index,
             children: [
-              const Dashboard(),
+              Dashboard(),
               Container(color: Colors.red),
               Container(color: Colors.blue)
             ],
