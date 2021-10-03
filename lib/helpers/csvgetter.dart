@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:csv/csv.dart';
 import 'package:http/http.dart' as http;
 import 'package:sunshiner/constants.dart';
-import 'package:sunshiner/helpers/geohelper.dart';
 import 'package:sunshiner/models/daily_model.dart';
 import 'package:sunshiner/models/vaccination_model.dart';
 import 'package:geocoding/geocoding.dart';
@@ -77,7 +76,9 @@ Future<VaccinationModel?> getVaccinationDataByLocality(
   return null;
 }
 
-Future<List<DailyModel>> getInfo({String url = deathUrl}) async {
+/// Obtém dados gerais sobre paises ao longo do tempo
+Future<DailyModel> getCountryInfo(String country,
+    {String url = deathUrl}) async {
   Uri uri = Uri.parse(url);
 
   http.Response response = await http.get(uri);
@@ -93,23 +94,45 @@ Future<List<DailyModel>> getInfo({String url = deathUrl}) async {
   results.addAll(
       rowsAsListOfValues.map((e) => DailyModel.fromMap(header, e)).toList());
 
-  return results;
+  return results.firstWhere((e) => e.country == country && e.state == "");
 }
 
-Future<void> getInfoFromLocality(Position currentPosition,
-    {String url = deathUrl}) async {
-  List<DailyModel> list = await getInfo(url: url);
-  double min = double.maxFinite;
-  DailyModel dailyModel;
+// /// Retorna
+// Future<DailyModel?> getInfoFromLocality(Position currentPosition,
+//     {String url = deathUrl,
+//     String? estado_default = null,
+//     String? pais_default = null}) async {
+//   List<DailyModel> list = await getInfo(url: url);
+//   List<Placemark> placemarks = await placemarkFromCoordinates(
+//       currentPosition.latitude, currentPosition.longitude,
+//       localeIdentifier: "en_US");
+//   String pais = pais_default ?? placemarks[0].country ?? "";
+//   String estado = estado_default ?? placemarks[0].administrativeArea ?? "";
 
-  list.forEach((e) {
-    //todo fazer um break aqui
-    if (e.latitude != null && e.longitude != null) {
-      double dist = Geolocator.distanceBetween(currentPosition.latitude,
-          currentPosition.longitude, e.latitude!, e.longitude!);
-      if (dist < min) {
-        dailyModel = e;
-      }
-    }
-  });
-}
+//   // Obtém os dados mais próximos de [currentPosition]
+//   List<DailyModel> filter =
+//       list.where((e) => e.country == pais || e.state == "pais").toList();
+
+//   double min = double.maxFinite;
+//   if (filter.isEmpty) return null;
+//   DailyModel closest = filter[0];
+
+//   for (DailyModel e in filter) {
+//     if (e.state.contains(estado)) {
+//       closest = e;
+//       break;
+//     }
+
+//     if (e.latitude != null && e.longitude != null) {
+//       double dist = Geolocator.distanceBetween(currentPosition.latitude,
+//           currentPosition.longitude, e.latitude!, e.longitude!);
+
+//       if (dist < min) {
+//         closest = e;
+//         min = dist;
+//       }
+//     }
+//   }
+//   print("getInfoFromLocality");
+//   return closest;
+// }

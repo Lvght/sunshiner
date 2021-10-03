@@ -14,7 +14,10 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
-        children: [LocalDataDisplay()],
+        children: [
+          Text('Dados do seu local'),
+          LocalDataDisplay(),
+        ],
       ),
     );
   }
