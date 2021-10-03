@@ -22,7 +22,7 @@ class _AppWrapperState extends State<AppWrapper> {
           body: IndexedStack(
             index: _index,
             children: [
-              Dashboard(),
+              const Dashboard(),
               Container(color: Colors.red),
               Container(color: Colors.blue)
             ],
@@ -30,7 +30,7 @@ class _AppWrapperState extends State<AppWrapper> {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _index,
             onTap: (int i) => setState(() => _index = i),
-            items: [
+            items: const [
               BottomNavigationBarItem(
                   icon: Icon(Icons.home_rounded), label: 'Home'),
               BottomNavigationBarItem(

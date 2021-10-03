@@ -12,12 +12,19 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: ListView(
-        children: [
-          Text('Dados do seu local'),
-          LocalDataDisplay(),
-        ],
+      appBar: AppBar(
+        title: const Text('19monitor'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: const [
+            Text('Dados do seu local'),
+            SizedBox(height: 16),
+            LocalDataDisplay(),
+            Text('Outros dados abaixo')
+          ],
+        ),
       ),
     );
   }

@@ -80,14 +80,13 @@ Future<VaccinationModel?> getVaccinationDataByLocality(
 Future<DailyModel> getCountryInfo(String country,
     {String url = deathUrl}) async {
   Uri uri = Uri.parse(url);
-
   http.Response response = await http.get(uri);
 
   List<DailyModel> results = [];
-
   List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter(
     eol: '\n',
   ).convert(response.body);
+
   List<dynamic> header = rowsAsListOfValues[0];
   rowsAsListOfValues.removeAt(0);
 

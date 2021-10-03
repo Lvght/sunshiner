@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
 import 'package:sunshiner/helpers/csvgetter.dart';
-import 'package:sunshiner/models/vaccination_model.dart';
+import 'package:sunshiner/models/state_model.dart';
 import 'package:sunshiner/models/daily_model.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sunshiner/helpers/geohelper.dart';
 
 class LocalDataDisplay extends StatefulWidget {
-  LocalDataDisplay({Key? key}) : super(key: key);
+  const LocalDataDisplay({Key? key}) : super(key: key);
 
   @override
   _LocalDataDisplayState createState() => _LocalDataDisplayState();
@@ -31,7 +32,7 @@ class _LocalDataDisplayState extends State<LocalDataDisplay> {
 
     return FutureBuilder<DailyModel?>(
         //todo
-        future: getCountryInfo("Brazil"),
+        future: _getDisplayInfo(context),
         builder: (BuildContext context, AsyncSnapshot<DailyModel?> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.active:
@@ -39,6 +40,12 @@ class _LocalDataDisplayState extends State<LocalDataDisplay> {
             case ConnectionState.waiting:
               return const Center(child: CircularProgressIndicator());
             default:
+              if (snapshot.data == null) {
+                return const Center(
+                  child: Text(
+                      'Você deve habilitar o acesso à sua localização para que possamos mostrar dados de seu país.'),
+                );
+              }
               return SizedBox(
                 height: 300,
                 child: LineChart(LineChartData(
@@ -46,20 +53,7 @@ class _LocalDataDisplayState extends State<LocalDataDisplay> {
                       show: true,
                       rightTitles: SideTitles(showTitles: false),
                       topTitles: SideTitles(showTitles: false),
-                      bottomTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 22,
-                        interval: 1,
-                        getTextStyles: (context, value) => const TextStyle(
-                            color: Color(0xff68737d),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                        getTitles: (value) {
-                          // print(value);
-                          return 'a';
-                        },
-                        margin: 8,
-                      ),
+                      bottomTitles: SideTitles(showTitles: false),
                     ),
                     lineBarsData: [
                       LineChartBarData(
@@ -106,6 +100,7 @@ class _LocalDataDisplayState extends State<LocalDataDisplay> {
       List<String> list = key.split("/");
       if (list[1] == "1") {
         DateTime date = DateTime.parse(
+            // convertendo M/D/YY para YYYY-MM-DD
             "20${list[2]}-${list[0].padLeft(2, '0')}-${list[1].padLeft(2, '0')}");
         results.add(FlSpot(date.millisecondsSinceEpoch.toDouble(),
             (value - total).toDouble()));
@@ -115,6 +110,37 @@ class _LocalDataDisplayState extends State<LocalDataDisplay> {
 
     return results;
   }
+}
+
+Future<DailyModel?> _getDisplayInfo(BuildContext context) async {
+  String? userLocationCountry =
+      Provider.of<StateModel>(context, listen: false).country;
+  String? userLocationState =
+      Provider.of<StateModel>(context, listen: false).state;
+
+  // Caso a informação aida não tenha sido carregada.
+  if (userLocationCountry == null || userLocationCountry.isEmpty) {
+    Position? position = await getPosition();
+
+    if (position != null) {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude, position.longitude,
+          localeIdentifier: "en_US");
+      userLocationCountry = placemarks[0].country ?? "";
+
+      Provider.of<StateModel>(context, listen: false).setUserLocale(
+          country: userLocationCountry,
+          state: userLocationState,
+          position: position);
+    }
+
+    // Ocorreu uma falha ao obter a localização.
+    else {
+      return null;
+    }
+  }
+
+  return getCountryInfo(userLocationCountry);
 }
 
 // LineChartData _getChartData(List<VaccinationModel> data) => LineChartData(
