@@ -11,7 +11,7 @@ class LocalDataDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getInfo(),
+        future: getVaccinationData(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.active:
