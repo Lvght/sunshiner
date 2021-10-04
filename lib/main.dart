@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sunshiner/screens/app_wrapper.dart';
 
 void main() {
@@ -14,16 +15,37 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        colorScheme: const ColorScheme(
+          primary: Color(0xFFFF4A4A),
+          onPrimary: Colors.black87,
+          secondary: Color(0xFFFF4A4A),
+          background: Color(0xFF00FF00),
+          brightness: Brightness.light,
+          onBackground: Color(0xFA000000),
+          onSurface: Color(0xFFFAFAFA),
+          error: Colors.red,
+          onError: Colors.black,
+          onSecondary: Colors.blue,
+          primaryVariant: Colors.red,
+          secondaryVariant: Colors.pink,
+          surface: Colors.green,
+        ),
+        appBarTheme: const AppBarTheme(
+          elevation: 0.0,
+          centerTitle: false,
+          backgroundColor: const Color(0xFFECECEC),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFECECEC),
+        textTheme: TextTheme(
+            headline1: GoogleFonts.ptSans(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+            bodyText1: GoogleFonts.roboto(
+              fontSize: 16,
+              color: Colors.black,
+            )),
       ),
       home: const AppWrapper(),
     );

@@ -17,8 +17,8 @@ class LocalDataDisplay extends StatefulWidget {
 
 class _LocalDataDisplayState extends State<LocalDataDisplay> {
   final List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
+    const Color(0xffff4a4a),
+    const Color(0xffff5b5b),
   ];
 
   @override
@@ -62,28 +62,26 @@ class _LocalDataDisplayState extends State<LocalDataDisplay> {
                           ColorTween(
                                   begin: gradientColors[0],
                                   end: gradientColors[1])
-                              .lerp(0.2)!,
+                              .lerp(1)!,
                           ColorTween(
                                   begin: gradientColors[0],
                                   end: gradientColors[1])
-                              .lerp(0.2)!,
+                              .lerp(1)!,
                         ],
                         barWidth: 2,
                         isStrokeCapRound: true,
                         dotData: FlDotData(
                           show: false,
                         ),
-                        belowBarData: BarAreaData(show: false, colors: [
+                        belowBarData: BarAreaData(show: true, colors: [
                           ColorTween(
                                   begin: gradientColors[0],
                                   end: gradientColors[1])
-                              .lerp(0.2)!
-                              .withOpacity(0.1),
+                              .lerp(1)!,
                           ColorTween(
                                   begin: gradientColors[0],
                                   end: gradientColors[1])
-                              .lerp(0.2)!
-                              .withOpacity(0.1),
+                              .lerp(1)!,
                         ]),
                       )
                     ])),

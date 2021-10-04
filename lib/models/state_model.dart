@@ -1,8 +1,17 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:mobx/mobx.dart';
 
-class StateModel {
+part 'state_model.g.dart';
+
+class StateModel = StateModelBase with _$StateModel;
+
+abstract class StateModelBase with Store {
   String? country;
+
+  @observable
   String? state;
+
+  @observable
   Position? position;
 
   String? removeDiacritics(String? str) {
@@ -19,17 +28,10 @@ class StateModel {
     return str;
   }
 
+  @action
   void setUserLocale({Position? position, String? state, String? country}) {
     this.country = removeDiacritics(country);
     this.state = removeDiacritics(state);
     this.position = position;
   }
-
-  // Info sobre a lozalização do usuário.
-  // List<GeneralDailyPandemicInformation> currentLocaleInformation;
-
-  // /// Info. sobre outros países (apenas mortes)
-  // List<GlobalDeathInformationCell> globalDeathInformation;
-
-  // // Info. sobre outros países (número de vacinados)
 }
