@@ -1,6 +1,10 @@
 # sunshiner
 
-A new Flutter project.
+A new Flutter project for COVID-19: Calculate the Risk.
+
+## Prototype
+
+<a href="https://www.figma.com/proto/99pUJeWTkvepc8lik9viW8/19monitor?node-id=26%3A4&scaling=scale-down&page-id=0%3A1&starting-point-node-id=26%3A4">https://www.figma.com/proto/99pUJeWTkvepc8lik9viW8/19monitor?node-id=26%3A4&scaling=scale-down&page-id=0%3A1&starting-point-node-id=26%3A4</a>
 
 ## Getting Started
 
